@@ -1,0 +1,11 @@
+{
+    "name": "ai-devs-4-craft-starter",
+    "private": true,
+    "type": "module",
+    "engines": {
+      "node": ">=24"
+    },
+    "scripts": {
+        "start": "node app.js"
+    }
+}
