@@ -6,9 +6,8 @@ const tracer = createTracer(sessionId);
 
 tracer.record("app.start", { sessionId });
 
-// const prompt = "Write up the specs for the AirPods Max 2, which were released yesterday.";
-// const prompt = "Create a wide landscape illustration of the Yamaha FJR1300, no text.";
 const prompt = "What is 47.2 plus 93?";
+
 try {
   const answer = await agent(
     prompt,
