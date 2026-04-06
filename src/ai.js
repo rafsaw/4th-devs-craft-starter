@@ -1,4 +1,9 @@
 import { redactSecrets } from "./trace-logger.js";
+import {
+  AI_API_KEY,
+  EXTRA_API_HEADERS,
+  RESPONSES_API_ENDPOINT
+} from "../config.js";
 
 /** Trace snapshot: same payload shape minus full `tools` list (count only). */
 function llmRequestBodyForTrace(body) {
@@ -32,11 +37,11 @@ function llmResponseBodyForTrace(data) {
 }
 
 async function chat(input, tools, tracer) {
-  const url = "https://api.openai.com/v1/responses";
+  const url = RESPONSES_API_ENDPOINT;
   const requestBody = { model: "gpt-4o", input, tools };
   const requestHeaders = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+    Authorization: `Bearer ${AI_API_KEY}`,
   };
 
   tracer?.record(
