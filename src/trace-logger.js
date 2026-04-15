@@ -28,9 +28,9 @@
  */
 
 import { writeFile, mkdir } from "node:fs/promises";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
+import { formatLocalDateTime } from "./local-time.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -93,7 +93,8 @@ export const compactImageFieldsInCopy = (value, depth = 0) => {
 };
 
 export const createTracer = (sessionId = "unknown") => {
-  const startedAt = new Date().toISOString();
+  const startDate = new Date();
+  const startedAt = formatLocalDateTime(startDate);
   const events = [];
   const slug = startedAt.replace(/[:.]/g, "-");
   const outputPath = join(LOGS_DIR, `${sessionId}--${slug}.json`);
@@ -102,7 +103,7 @@ export const createTracer = (sessionId = "unknown") => {
     const payload = cloneJsonSafe(data);
     events.push({
       index: events.length + 1,
-      timestamp: new Date().toISOString(),
+      timestamp: formatLocalDateTime(),
       type,
       data: payload,
     });
@@ -113,8 +114,8 @@ export const createTracer = (sessionId = "unknown") => {
     const payload = {
       sessionId,
       startedAt,
-      finishedAt: new Date().toISOString(),
-      durationMs: Date.now() - new Date(startedAt).getTime(),
+      finishedAt: formatLocalDateTime(),
+      durationMs: Date.now() - startDate.getTime(),
       // eventsCount: events.length,
       // eventTypes: [...new Set(events.map((e) => e.type))],
       events,

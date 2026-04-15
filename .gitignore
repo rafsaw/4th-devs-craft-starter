@@ -49,3 +49,7 @@ temp/
 *.local
 
 output/
+
+# Scraper local database
+data/scrape.sqlite
+data/scrape.sqlite-*
